@@ -37,7 +37,8 @@ body{font-family: 'Arimo', sans-serif; font-weight: 400;
 	direction: rtl;                 /* prevent copy paste, to allow, change 'none' to 'text' */
 	color: #3e474e;
 }
-a{ text-decoration:none;}
+a{ text-decoration:none; color: #3e474e;}
+a:visited{ color: #3e474e;}
 .fluid {
 	clear: both;
 	margin-left: 0;
@@ -71,6 +72,17 @@ input{ border:1px solid #b9b9b9; text-align:right;font-family: 'Arimo', sans-ser
 .noIconinputMed{ padding:10px 3% 10px 4%; margin-top:10px; width: 49%;}
 .noIconinputSmall{ padding:10px 3% 10px 4%; margin-top:10px; width: 33%; float:left;}
 .packageinput{ background:url(../images/packageIcon.jpg) no-repeat right 7px; padding:10px 13% 10px 4%; margin-top:10px; width: 83%;}
+.packageinputWrapper{position:relative;}
+.packageinputButton{position: absolute;
+    left: 5px;
+    top: 18px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background:url('../images/addRow.png')0 0 no-repeat;
+    outline: none;
+    cursor: pointer;
+}
 .passinput{ background:url(../images/PassIcon.jpg) no-repeat right 7px; padding:10px 13% 10px 4%; width: 83%;}
 ::-webkit-input-placeholder { color:#41464c; }
 ::-moz-placeholder { color:#41464c; } /* firefox 19+ */
@@ -185,6 +197,7 @@ box-shadow:         1px 1px 3px rgba(50, 50, 50, 0.75);text-align:center; margin
 .deliverBtn2 a{color:#c6040c;}
 .BarcodeFields{ width:80%; margin:0 auto;}
 .BarcodeFields select{ border:1px solid #b9b9b9; text-align:right;font-family: 'Arimo', sans-serif; font-size:18px; padding:10px 20px 10px 0; width: 100%;margin-top: 0px;}
+.BarcodeFields select#noReportReasonsList118 {margin-top:10px;}
 .BarcodeArea{ width:80%; margin:0 auto; background:url(../images/ScanBtn.jpg) no-repeat;background-size: 100% 103px; min-height:103px; margin-top:8px;}
 .greyText{ color:#a2a7aa; font-size:12px;}
 

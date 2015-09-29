@@ -127,7 +127,7 @@
               if (validated == true && city == "") { validated = false; errorMessage = 'יש להזין ישוב'; }
               if (validated == true && street == "") { validated = false; errorMessage = 'יש להזין רחוב'; }
               if (validated == true && houseNumber == "") { validated = false; errorMessage = 'יש להזין מספר בית'; }
-
+              
 
               if (validated == false) {
                   displayErrorMessage(errorMessage);
@@ -135,7 +135,7 @@
                   var username = localStorage.getItem("username");
                   var heker = localStorage.getItem("heker");
                   //var barcodes = localStorage.getItem("delivery_result"); //if (!barcodes) { barcodes = '12345678912il'; }
-                  var barcodes = localStorage.getItem("delivery_no_result");
+				  var barcodes = localStorage.getItem("delivery_no_result");
                   var region = localStorage.getItem("Region");
                   var subRegion = localStorage.getItem("subRegions");
                   if (!subRegion) {
@@ -144,33 +144,25 @@
                   var actionCode = '4';
                   var actionDetailedCode = localStorage.getItem("noReportReason");
                   var davarPhoneNo = "";
-                  !$('#davarPhoneNo').hasClass('hidden') ? davarPhoneNo = $('#davarPhoneNo').val() : davarPhoneNo = "";
+                  !$('#davarPhoneNo').hasClass('hidden') ? davarPhoneNo = $('#davarPhoneNo').val():davarPhoneNo = "";
                   var street = "0";
                   var yechida = '0';
                   var submit = new insertBarcode(username, heker, region, subRegion, actionCode, actionDetailedCode, barcodes, firstName, lastName, city, street, streetText, houseNumber, "", phoneNumber, 'false', yechida, davarPhoneNo);
-                  //shai 24-09 start
-                  //if (submit.success != true) {
-                  if (sessionStorage.getItem("submit-delivery") == "false" || sessionStorage.getItem("submit-delivery") == "error") {
-                      //if (submit.errorCode == 100) {
-                      if (sessionStorage.getItem("submit-delivery-error") == "100") {
-                          //shai 24-09 end
+//shai 24-09 start
+                  if(submit.success != true){
+                      if (submit.errorCode == 100) {
+//shai 24-09 end
                           displayErrorMessage('עבור תיאום מסירה יש להזין מספר טלפון לתיאום');
                           $('#davarPhoneNo').removeClass('hidden');
                       }
-                      else{
-                          displayErrorMessage('הדיווח לא נשמר- ארעה תקלה');
-                      }
-                     }
-
-                      else {
-
-                          displayErrorMessage('הדיווח נשמר בהצלחה');
-                          localStorage.removeItem("delivery_no_result");
-                          window.location = "lobby.html";
-                      }
+                         
+                      displayErrorMessage('הדיווח נשמר בהצלחה');
+                      localStorage.removeItem("delivery_no_result");
+                     window.location = "lobby.html";
                   }
               }
-          );
+          }
+         );
 
         function displayErrorMessage(errorMsg) {
             navigator.notification.alert(

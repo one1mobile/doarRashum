@@ -1,6 +1,7 @@
-﻿[
+[
 {"type":"אי מסירה","code":100,"description":"עזב"},
 {"type":"אי מסירה","code":113,"description":"הועבר למסירה באשנב"},
+{"type":"אי מסירה","code":118,"description":"תיאום מסירה"},
 {"type":"אי מסירה","code":151,"description":"לא ידוע"},
 {"type":"אי מסירה","code":152,"description":"סירב לקבל"},
 {"type":"אי מסירה","code":153,"description":"הועבר למוקד שליחים"},
@@ -9,6 +10,5 @@
 {"type":"אי מסירה","code":162,"description":"נסיון מסירה ראשון"},
 {"type":"אי מסירה","code":163,"description":"נסיון מסירה שני"},
 {"type":"אי מסירה","code":166,"description":"לא נמסר לאחר 3 ניסיונות"},
-{"type":"אי מסירה","code":170,"description":"לא אותר"},
-{"type":"אי מסירה","code":118,"description":"תיאום מסירה"}
+{"type":"אי מסירה","code":170,"description":"לא אותר"}
 ]
