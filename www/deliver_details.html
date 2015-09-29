@@ -1,0 +1,120 @@
+﻿<!doctype html>
+<html class="">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+<title>דואר ישראל</title>
+<link href="css/boilerplate.css" rel="stylesheet" type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/jquery.signaturepad.css">
+<link href='http://fonts.googleapis.com/css?family=Arimo:400,700' rel='stylesheet' type='text/css'>
+ <link rel="stylesheet" href="js/css/jquery.sidr.dark.css">
+ <script src="js/jquery.js"></script>
+ <script type="text/javascript" src="js/jquery.signaturepad.js"></script>
+ <script src="js/json2.min.js"></script>
+ <script src="js/jquery.sidr.min.js"></script>
+ <script type="text/javascript" src="cordova.js"></script>
+  <script>
+$(function(){
+  $("#header").load("header.html");
+  $("#footer").load("footer.html");
+});
+</script>
+</head>
+<body class="home">
+<div id="header"></div>
+<!--Content-->
+<script>
+		$(document).ready(function(){
+			$(".mainContent").css("height", window.innerHeight-($("#header").innerHeight()+160));
+		});
+		</script>
+<div class="mainContent">
+    
+<div class="BarcodeFields"><br>
+ <strong>פרטי הנמען</strong> (נמסר למיופה כח)
+<form id="no_deliver">
+     <input type="text" class="noIconinputLeft" name="unit" placeholder="שם משפחה" id="lastName">
+	<input type="text" class="noIconinputRight" name="unit" placeholder="שם פרטי" id="firstName"><br>
+    <input type="text" class="noIconinput" name="unit" placeholder="מס טלפון" id="phoneNumber"><br>
+    <input type="text" class="noIconinput" name="unit" placeholder="ישוב" id="city"><br>
+    <input type="text" class="noIconinputMed" name="unit" placeholder="רחוב" id="street">
+	<input type="text" class="noIconinputSmall" name="unit" placeholder="מס' בית" id="houseNumber">
+  </form>
+ <div class="smallText"> הנני מאשר את קבלת דבר הדואר <span id="scanResult"></span></div>
+ <!--<div class="signatureBox"><span>יש להחתים את הלקוח כאן</span></div> -->
+ <div class="signatureBox sigPad"> 
+ <div class="sig sigWrapper">
+    <div class="typed"></div>
+      <canvas class="pad" width="250" height="90"></canvas>							
+			<input type="hidden" name="output" class="output">
+ </div> 
+</div>
+<div class="loginBtn" id="submitMesira">אישור</div>
+</div>
+</div>
+<!--Footer-->
+<div id="footer"></div>
+<script src="js/jquery.signaturepad.js"></script>
+ <script>
+  $(document).ready(function() {
+    //display the barcode that was scanned / typed in the previous screen
+    var resultDiv=document.getElementById("scanResult");
+    resultDiv.innerHTML = localStorage.getItem("delivery_result");
+    //start the canvas for customer signature
+    //http://thomasjbradley.ca/lab/signature-pad/  	   	 
+    //https://github.com/thomasjbradley/signature-pad
+  	 $('.sigPad').signaturePad({drawOnly:true, lineWidth:'0', lineTop: 0});  	 	  	  	
+  });
+  
+   $('#submitMesira').
+    click(    
+  	 function(event) {
+  		  event.stopPropagation(event);
+		    event.preventDefault(event);
+        var api = $('.sigPad').signaturePad();
+		    var sigBase64=api.getSignatureImage(); 
+        var lastName=$("lastName").val();
+        var firstName=$("firstName").val();
+        var phoneNumber=$("phoneNumber").val();
+        var city=$("city").val();
+        var streetText=$("street").val();
+        var houseNumber=$("houseNumber").val();
+        var validated=true; var errorMessage;
+        if (lastName=="") {validated=false; errorMessage='יש להזין שם משפחה'; }
+        if (validated==true && firstName=="") {validated=false; errorMessage='יש להזין שם פרטי'; }
+        if (validated==true && phoneNumber=="") {validated=false; errorMessage='יש להזין מספר טלפון'; }
+        if (validated==true && city=="") {validated=false; errorMessage='יש להזין ישוב'; }
+        if (validated==true && streetText=="") {validated=false; errorMessage='יש להזין רחוב'; }
+        if (validated==true && houseNumber=="") {validated=false; errorMessage='יש להזין מספר בית'; }
+        //if (validated==true && sigBase64=="") {validated=false; errorMessage='יש להחתים את הלקוח'; }
+        
+        if (validated==false) {
+          displayErrorMessage(errorMessage);
+        } else
+        { var username=localStorage.getItem("username");
+          var heker=localStorage.getItem("heker");
+          var barcodes=localStorage.getItem("delivery_result");
+          var region=localStorage.getItem("region");
+          var subRegion=localStorage.getItem("subRegion");
+          var actionCode='3';
+          var actionDetailedCode=localStorage.getItem("mesira");
+          var street="";
+          insertBarcode(username, heker, region, subRegion, actionCode, actionDetailedCode, barcodes, firstName, lastName, city, street, streetText, houseNumber, sigBase64, phoneNumber);
+          window.location = 'lobby.html';
+     }
+     }
+    );
+    
+    function displayErrorMessage (errorMsg) {
+      navigator.notification.alert(							
+							errorMsg,				          //message
+							null,											//callback
+							'דואר רשום',							//title
+							'אישור'										//button name
+						);
+    }
+    
+  </script>
+  </body>
+</html>
