@@ -8,8 +8,11 @@
 <link href="css/style.css" rel="stylesheet" type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Arimo:400,700' rel='stylesheet' type='text/css'>
  <link rel="stylesheet" href="js/css/jquery.sidr.dark.css">
+ <script src="cordova.js"></script>
 <script src="js/jquery-2.1.3.js"></script>
 <script src="js/jquery.sidr.min.js"></script>
+<script src="js/invoke_backend_service.js"></script> 
+
   <script>
 $(function(){
   $("#header").load("header.html");
@@ -28,11 +31,16 @@ $(function(){
 <div class="mainContent">
 <div class="miyunTitle">מיון לפי סדר הליכה</div>
 <div class="miyunTop">כמות הפריטים ששויכו לאיזור שלך</div>
-<div class="miyunTopNum">74</div>
-<a href="#"><div class="BarcodeArea"></div></a><br>
+<div class="miyunTopNum" id="Shuycho"></div>
+
+<div class="miyunTop">כמות הפריטים שמוינו</div>
+<div class="miyunTopNum" id="Muynu"></div>
+<a href="#"><div class="BarcodeArea" id="startScan"></div></a><br>
 <br>
 <br>
-<div class="doneScan"><a href="#">סיימתי לסרוק</a></div>
+<div class="doneScan" id="doneScan"><a href="#">סיימתי לסרוק</a></div>
 </div>
 <!--Footer-->
 <div id="footer"></div>
+<script src="js/miyun.js"></script>
+ 

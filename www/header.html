@@ -1,5 +1,9 @@
 ﻿<script>
     $(document).ready(function () {
+	/*
+    if (localStorage["Region"]) {
+        getDataForMenu(localStorage.getItem("username"), localStorage.getItem("heker"), localStorage.getItem("Region"), localStorage.getItem("subRegions"));
+    } */                
         $('#simple-menu').sidr();
         var name = localStorage.getItem("Name");
         if (!name) {
@@ -31,7 +35,12 @@
         // set current date in header
         var mydate = displayToday();
         $("#Myheaderdate").text(mydate);
-        
+        //var percentDay = localStorage.getItem("PercentDay");
+        //if (percentDay !== null) {		
+		 // document.getElementById("PercentDay").innerHTML ="נמסרו "+PercentDay;
+        //} else {
+            document.getElementById("PercentDay").innerHTML ="נמסרו 0%";
+        //}
     });
 
     function displayToday() {
@@ -85,10 +94,7 @@
                     איזור חלוקה
                 </a>
             </div>
-            <div class="underMenu">נמסרו 0/0</div>
+            <div class="underMenu" id="PercentDay">""</div>
             <div class="underMenu"><img src="images/calendar.jpg" alt="" /><span id="Myheaderdate"></span></div>
         </div>
-
-
-
-
+        <script src="js/invoke_backend_service.js"></script>
