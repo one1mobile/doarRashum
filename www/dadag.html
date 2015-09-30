@@ -115,9 +115,6 @@
             $('#unit').append("<option value='" + code[index] + "'>" + desc[index] + "</option>");
         })
 
-
-
-
         //Andrey 29.09.15 end
 
         //Olga start 24/09/2015
@@ -133,29 +130,7 @@
         }
 
         if (sessionStorage.errorstreetCode == 1) { var errMsg = sessionStorage.errorstreetMessage; displayMessage(errMsg); }
-        if (sessionStorage.errorstreetCode == 0) {
-            var streets = sessionStorage.getItem("streets");
-            streets = streets.split(",");
-            //	for(var i=0; i< streets.length; i++){
-            //		var	street=(streets);
-            //		$("[name='street']").append($('<option>', {
-            //		value: street[i],
-            //		text: street[i]
-            //	}));
-            //}
-
-            //Andrey 29.09.15 start
-
-            $('#street').autocomplete({
-                lookup: streets,
-                onSelect: function (suggestion) {
-                },
-                appendTo: $('#streetWrapper')
-            });
-
-            //Andrey 29.09.15 end-->
-
-        }
+        if (sessionStorage.errorstreetCode == 0) { doarAutocomplete('#street', '#streetWrapper');}
         // Olga End 24/09/2015
     });
     $('#deliver_no_startScan').click(function () {
