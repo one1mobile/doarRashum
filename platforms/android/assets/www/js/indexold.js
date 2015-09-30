@@ -14,7 +14,7 @@ function init() {
 
 	$("#loginButton").click(
 		function(event) {
-
+		    debugger;
 		    sessionStorage.clear();
 		    localStorage.clear();
 		    //**********************

@@ -8,8 +8,10 @@
 <link href="css/style.css" rel="stylesheet" type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Arimo:400,700' rel='stylesheet' type='text/css'>
  <link rel="stylesheet" href="js/css/jquery.sidr.dark.css">
- <script src="js/jquery.js"></script>
+<script src="js/jquery-2.1.3.js"></script>
  <script src="js/jquery.sidr.min.js"></script>
+ <script src="js/invoke_backend_service.js"></script>
+ <script src="js/spin.js"></script>
   <script>
 $(function(){
   $("#header").load("header.html");
@@ -27,26 +29,30 @@ $(function(){
 		</script>
 <div class="mainContent">
 <div class="reportList">
-    	<div class="reportListFirstItem"><span><strong>84</strong></span>נמסרו לחלוקה היום</div>
-        <h2>שהוחזרו למ"ר</h2>
+    	<div class="reportListFirstItem"><span><strong id="NimseruLachaluka"></strong></span >נמסרו לחלוקה היום</div>
+        <h2 id="huchzeruLaMR" >שהוחזרו למ"ר</h2>
         <ul>
-         <li><span>23</span>דד"ג</li>
-         <li><span>5</span>מרכז חלוקה</li>
-         <li><span>12</span>החזרה לשולח</li>
-         <li><span>5</span>אחר</li>
+         <li><span id="ddg"></span>דד"ג</li>
+         <li><span id="merchazChaluka"></span>מרכז חלוקה</li>
+		  <!-- -->
+         <li><span id="hachzaraLasholeach"></span>החזרה לשולח</li>
+         <li><span  id="acher"></span>אחר</li>
         </ul><br>
           <ul>
-         <li><span>150</span>הוצאו לחלוקה</li>
-         <li><span>108</span>נמסרו לנמען</li>
-         <li><span>6</span>החזרה לשולח</li>
-         <li><span>1</span>הודעה</li>
-         <li><span>3</span>הועבר לשליח</li>
-         <li><span>540</span>אבוד</li>
-         <li><span>3</span>ללא דיווח</li>
+         <li><span id="hutzuLachaluka"></span>הוצאו לחלוקה</li>
+         <li><span id="nimseruLaniman"></span>נמסרו לנמען</li>
+         <li><span id="huavarLashaliach"></span>החזרה לשולח</li>
+         <li><span id="hodaa"></span>הודעה</li>
+		 <!-- -->
+         <li><span id="lehachzaraLasholeach"></span>הועבר לשליח</li>
+         <li><span id="avud"></span>אבוד</li>
+         <li><span id="leloDivuach"></span>ללא דיווח</li>
         </ul>
     </div>
 
+			
 
 </div>
 <!--Footer-->
 <div id="footer"></div>
+<script src="js/doch.js"></script>

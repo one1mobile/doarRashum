@@ -4,14 +4,14 @@ var Maazan="";
 
 document.addEventListener("deviceready", init, false);
 
-//**********************
-				//for testing only
-				var username="42";
-				var heker="5135";
-				var region="43";
-				var subRegion=
-			//**********************
-			//	debugger;
+////**********************
+//				//for testing only
+//				var username="42";
+//				var heker="5135";
+//				var region="43";
+//				var subRegion=
+//			//**********************
+//			//	debugger;
  
  
  $(document).ready(function(){

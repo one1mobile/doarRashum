@@ -3,7 +3,7 @@ var appName = 'דוורים';
 document.addEventListener("deviceready", init, false);
 
 
-var name = localStorage.name;
+var name = localStorage.getItem("name");
 $("#LoginName").text(name);
 
 /*
@@ -11,8 +11,8 @@ var name = "alex";
 $("#LoginName").text(name);
 */
 
-var mydate =  displayToday();
-$("#Myheaderdate").text(mydate);
+//var mydate =  displayToday();
+//$("#Myheaderdate").text(mydate);
 
 function Disconect(){
 	CleanLocalStorageClear();
@@ -32,13 +32,13 @@ function SessionStorageClear(){
 }
 
 
-function displayToday() {     
-      var now=new Date();
-      return [AddZero(now.getDate()), AddZero(now.getMonth() + 1), now.getFullYear()].join("/");       
-}
-function AddZero(num) {
-      return (num >= 0 && num < 10) ? "0" + num : num + "";
-}
+//function displayToday() {     
+//      var now=new Date();
+//      return [AddZero(now.getDate()), AddZero(now.getMonth() + 1), now.getFullYear()].join("/");       
+//}
+//function AddZero(num) {
+//      return (num >= 0 && num < 10) ? "0" + num : num + "";
+//}
 
 
 /*

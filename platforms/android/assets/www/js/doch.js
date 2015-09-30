@@ -1,29 +1,44 @@
 /* global $ */
 var appName = 'דוורים';
 var Maazan="";
-
+ var username="";
+ var heker="";
+ var region="";
+ var subRegion="";
 document.addEventListener("deviceready", init, false);
 
 //**********************
-				//for testing only
-				var username="42";
-				var heker="5135";
-				var region="43";
-				var subRegion=
-			//**********************
-			//	debugger;
+		  
+				 username=localStorage.username;
+				 heker=localStorage.heker;
+				 region=localStorage.Region;
+				 subRegion=localStorage.subRegions;						
+				if(typeof subRegion == "undefined" ) {subRegion="";}
+				
+			
  
  
  $(document).ready(function(){
  var target = document.getElementById('maazanIcon');
 	var spinner = new Spinner().spin(target);
-	getMaazan(username, heker, region, subRegion );
+	//Maazan =  new Object();   
+	var Maazan=new getMaazan(username, heker, region, subRegion );
 	 Maazan= JSON.parse(sessionStorage.Maazan);
 	 $('#NimseruLachaluka').text (Maazan.NimseruLachaluka);
 	 $('#ddg').text (Maazan.ddg);
 	 $('#merchazChaluka').text (Maazan.merchazChaluka);
 	 $('#lehachzaraLasholeach').text (Maazan.lehachzaraLasholeach);
 	 $('#acher').text (Maazan.acher);
+	 
+	// $('#huchzeruLaMR').text (Maazan.huchzeruLaMR);
+	 $('#hachzaraLasholeach').text (Maazan.hachzaraLasholeach);
+	 $('#hutzuLachaluka').text (Maazan.hutzuLachaluka);
+	 $('#nimseruLaniman').text (Maazan.nimseruLaniman);
+	 $('#huavarLashaliach').text (Maazan.huavarLashaliach);
+	 
+	 $('#hodaa').text (Maazan.hodaa);
+	 $('#avud').text (Maazan.avud);
+	 $('#leloDivuach').text (Maazan.leloDivuach);
 	 spinner.stop();	
 });
 
