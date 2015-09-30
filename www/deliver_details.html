@@ -28,6 +28,27 @@ $(function(){
 <div id="header"></div>
 <!--Content-->
 <script>
+    //Andrey 29.09.15 start
+    $(window).load(function () {
+
+        getStreets(localStorage.username, localStorage.city);
+            var streets = sessionStorage.getItem("streets");
+            streets = streets.split(",");
+
+            function doarAutocomplete(elem, elemWrapper) {
+                $(elem).autocomplete({
+                    lookup: streets,
+                    onSelect: function (suggestion) {
+                    },
+                    appendTo: $(elemWrapper)
+                });
+            }
+
+        if (sessionStorage.errorstreetCode == 0) { doarAutocomplete('#street', '#streetWrapper'); }
+    })
+
+    //Andrey 29.09.15 end
+
 		$(document).ready(function(){
 			$(".mainContent").css("height", window.innerHeight-($("#header").innerHeight()+160));
 		});
@@ -79,7 +100,6 @@ $(function(){
   	 $('#sigPad').signaturePad({drawOnly:true, lineWidth:'0', lineTop: 0}); 
  //Olga start 24/09/2015	 
      $("#city").val(localStorage.cityName);	 
-     getStreets(localStorage.username, localStorage.city );
 	 if(sessionStorage.errorstreetCode==2){navigator.notification.alert(
 								'אירעה תקלה בהעברת הנתונים. \nנסה מאוחר יותר',  			// message
 								null,   			   										 // callback
@@ -88,7 +108,6 @@ $(function(){
 							);}
 							
 	if(sessionStorage.errorstreetCode==1){var errMsg=sessionStorage.errorstreetMessage;	displayMessage(errMsg);}
-	if (sessionStorage.errorstreetCode == 0) { doarAutocomplete('#street', '#streetWrapper'); }
 	// Olga End 24/09/2015
   });
           

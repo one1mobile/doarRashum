@@ -758,18 +758,3 @@ function createPhoneSoapMessage(username, phone ) {
        return xml;          
 }
 
-//Andrey 29.09.15 start
-$(document).ready(function () {
-    var streets = sessionStorage.getItem("streets");
-    streets = streets.split(",");
-
-    function doarAutocomplete(elem, elemWrapper) {
-        $(elem).autocomplete({
-            lookup: streets,
-            onSelect: function (suggestion) {
-            },
-            appendTo: $(elemWrapper)
-        });
-    }
-})
-//Andrey 29.09.15 end
