@@ -93,7 +93,7 @@
 	$('#summary').html(str5);
 	//Olga start 24/09/2015	 
      $("#city").val(localStorage.cityName);	 
-     getStreets(localStorage.username, localStorage.city );
+
 	 if(sessionStorage.errorstreetCode==2){navigator.notification.alert(
 								'אירעה תקלה בהעברת הנתונים. \nנסה מאוחר יותר',  			// message
 								null,   			   										 // callback
@@ -101,26 +101,21 @@
 								'אישור'                  									 // buttonName
 							);}
 							
-	if(sessionStorage.errorstreetCode==1){var errMsg=sessionStorage.errorstreetMessage;	displayMessage(errMsg);}
-	if(sessionStorage.errorstreetCode==0) {
-	 var streets = sessionStorage.getItem("streets");     
-	 streets=streets.split(",");
-		/*for(var i=0; i< streets.length; i++){
-			var	street=(streets);
-			$("[name='street']").append($('<option>', {
-			value: street[i],
-			text: street[i]
-		}));
-	}*/
-       //Andrey 29.09.15 start		
-           $('#street').autocomplete({
-            lookup: streets,
-            onSelect: function (suggestion) {             
-            },
-            appendTo:$('#streetWrapper')
-        });
-       //Andrey 29.09.15 end	
-	}
+	 if (sessionStorage.errorstreetCode == 1) { var errMsg = sessionStorage.errorstreetMessage; displayMessage(errMsg); }
+	 getStreets(localStorage.username, localStorage.city);
+	 var streets = sessionStorage.getItem("streets");
+	 streets = streets.split(",");
+
+	 function doarAutocomplete(elem, elemWrapper) {
+	     $(elem).autocomplete({
+	         lookup: streets,
+	         onSelect: function (suggestion) {
+	         },
+	         appendTo: $(elemWrapper)
+	     });
+	 }
+
+	 if (sessionStorage.errorstreetCode == 0) { doarAutocomplete('#street', '#streetWrapper'); }
 	// Olga End 24/09/2015
   });
 	

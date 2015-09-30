@@ -79,27 +79,6 @@
 
 <script src="js/jquery.signaturepad.js"></script>
 <script type="text/javascript">
-
-    //Andrey 29.09.15 start
-    $(window).load(function () {
-
-            getStreets(localStorage.username, localStorage.city);
-            var streets = sessionStorage.getItem("streets");
-            streets = streets.split(",");
-
-            function doarAutocomplete(elem, elemWrapper) {
-                $(elem).autocomplete({
-                    lookup: streets,
-                    onSelect: function (suggestion) {
-                    },
-                    appendTo: $(elemWrapper)
-                });
-            }
-
-        if (sessionStorage.errorstreetCode == 0) { doarAutocomplete('#street', '#streetWrapper'); }
-    })
-
-    //Andrey 29.09.15 end
 		
 		//populate deliver reason select box
 	$(document).ready(function() {	      
@@ -122,7 +101,21 @@
 								'אישור'                  									 // buttonName
 							);}
 							
-	if(sessionStorage.errorstreetCode==1){var errMsg=sessionStorage.errorstreetMessage;	displayMessage(errMsg);}
+	 if (sessionStorage.errorstreetCode == 1) { var errMsg = sessionStorage.errorstreetMessage; displayMessage(errMsg); }
+	 getStreets(localStorage.username, localStorage.city);
+	 var streets = sessionStorage.getItem("streets");
+	 streets = streets.split(",");
+
+	 function doarAutocomplete(elem, elemWrapper) {
+	     $(elem).autocomplete({
+	         lookup: streets,
+	         onSelect: function (suggestion) {
+	         },
+	         appendTo: $(elemWrapper)
+	     });
+	 }
+
+	 if (sessionStorage.errorstreetCode == 0) { doarAutocomplete('#street', '#streetWrapper'); }
 	// Olga End 24/09/2015
   });
 	

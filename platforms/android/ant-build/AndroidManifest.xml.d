@@ -1,2 +1,2 @@
-C:\doar\platforms\android\ant-build\AndroidManifest.xml : \
-C:\doar\platforms\android\AndroidManifest.xml \
+D:\one\doarRashum\platforms\android\ant-build\AndroidManifest.xml : \
+D:\one\doarRashum\platforms\android\AndroidManifest.xml \
