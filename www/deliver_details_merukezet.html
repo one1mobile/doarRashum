@@ -18,6 +18,7 @@
     <script src="js/respond.min.js"></script>
     <script src="js/invoke_backend_service.js"></script>
     <script src="js/jquery.sidr.min.js"></script>
+    <script src="js/jquery.autocomplete.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script>
         $(function () {
@@ -46,9 +47,14 @@
    
 	<!--Olga  Start 24/09/2015-->
 	<!--<input type="text" class="noIconinputMed" name="unit" placeholder="רחוב" id="street">  	-->	
-	<select id="street" class="noIconinputMed" name="street" style="padding: 10px 3% 10px 4%;margin-top: 10px; width: 49%;">
-    </select>
+	<!--<select id="street" class="noIconinputMed" name="street" style="padding: 10px 3% 10px 4%;margin-top: 10px; width: 49%;">
+    </select>-->
 	<!--Olga  End 24/09/2015-->	
+        <!--Andrey 29.09.15 start-->
+    <span id="streetWrapper" style="position: relative">
+        <input id="street" type="text" style="padding: 10px 3% 10px 4%;margin-top: 10px; width: 49%;"/>
+    </span>
+    <!--Andrey 29.09.15 end-->
 	<input type="text" class="noIconinputSmall" name="unit" placeholder="מס' בית" id="houseNumber">
   </form>
  <div class="smallText" id="summary">הנני מאשר את קבלת דברי הדואר 20 פריטים</div>
@@ -75,7 +81,7 @@
 <script type="text/javascript">
 		
 		//populate deliver reason select box
-	$(document).ready(function() {		
+	$(document).ready(function() {	      
 	var str1 = "הנני מאשר את קבלת דברי הדואר ";
 	var str2 = localStorage.getItem("barcodeCounter");
 	if( !str2 ) {
@@ -97,15 +103,23 @@
 							
 	if(sessionStorage.errorstreetCode==1){var errMsg=sessionStorage.errorstreetMessage;	displayMessage(errMsg);}
 	if(sessionStorage.errorstreetCode==0) {
-	 var streets = sessionStorage.getItem("streets");
+	 var streets = sessionStorage.getItem("streets");     
 	 streets=streets.split(",");
-		for(var i=0; i< streets.length; i++){
+		/*for(var i=0; i< streets.length; i++){
 			var	street=(streets);
 			$("[name='street']").append($('<option>', {
 			value: street[i],
 			text: street[i]
 		}));
-	}
+	}*/
+       //Andrey 29.09.15 start		
+           $('#street').autocomplete({
+            lookup: streets,
+            onSelect: function (suggestion) {             
+            },
+            appendTo:$('#streetWrapper')
+        });
+       //Andrey 29.09.15 end	
 	}
 	// Olga End 24/09/2015
   });
@@ -122,38 +136,18 @@
 	$(document).on('blur', 'input, textarea', function () {
 	    $(".footer").attr("display", "block!important"); $(".footer").show();
 
-
-
-
-
-
-
-
-
-
-
 	});
 
 $('#sigPad').signaturePad({ drawOnly: true, lineWidth: '0', lineTop: 0 });
 
 
-
-
-
-
-
-
-
-
-
-
 	$('#submitMesira').
             click(
-            function (event) {
+            function (event) {                             
                 event.stopPropagation(event);
-                event.preventDefault(event);
+                event.preventDefault(event);                
                 // var api = $('.sigPad').signaturePad();
-                //var sigBase64=api.getSignatureImage();
+                //var sigBase64=api.getSignatureImage();                
                 var sigBase64 = $("#sigOutput").val();
                 var lastName = $("#lastName").val();
                 var firstName = $("#firstName").val();
@@ -205,13 +199,13 @@ $('#sigPad').signaturePad({ drawOnly: true, lineWidth: '0', lineTop: 0 });
 		    })
                     //console.log("barcodes= " + barcodes);
                     var region = localStorage.getItem("Region");
-                    var subRegion = localStorage.getItem("subRegion");
-                    var actionCode = '3';
+                    var subRegion = localStorage.getItem("subRegion"); if (!subRegion) {subRegion='';}
+                    var actionCode = '33';
                     var actionDetailedCode = localStorage.getItem("mesira");
                     var davarPhoneNo = "";
                     var street = "0";
-                    var yechida = '0';
-                    var submit = new insertBarcode(username, heker, region, subRegion, actionCode, actionDetailedCode, barcodes, firstName, lastName, city, street, streetText, houseNumber, sigBase64, phoneNumber, 'false', yechida, davarPhoneNo);
+                    var yechida = '0';                    
+                    var submit = new insertBarcode(username, heker, region, subRegion, actionCode, actionDetailedCode, barcodes, firstName, lastName, city, street, streetText, houseNumber, sigBase64, phoneNumber, 'false', yechida, davarPhoneNo);                                                        
                     //shai 24-09 start
                     //if (sessionStorage.getItem("submit-delivery") == "true") {
                     if (sessionStorage.getItem("submit-delivery") == "true") {
@@ -220,6 +214,8 @@ $('#sigPad').signaturePad({ drawOnly: true, lineWidth: '0', lineTop: 0 });
                         localStorage.removeItem("submit-delivery");
                         localStorage.removeItem("barcodes");
                         localStorage.removeItem("mesira");
+                        localStorage.removeItem("Phone");
+		                localStorage.removeItem("barcodeCounter");
                         window.location = "lobby.html";
                         //shai 24-09 end
                     } else {

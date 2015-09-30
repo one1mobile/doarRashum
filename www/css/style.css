@@ -370,3 +370,13 @@ margin-left: 0;
 display: none;
 }
 }
+.autocomplete-suggestions {
+    top: 30px;
+    left: 0;
+    width: 100%!important;
+    background-color: #3e474e;
+    color: #fff;
+}
+    .autocomplete-suggestions > div {
+        padding-right: 10px;
+    }
