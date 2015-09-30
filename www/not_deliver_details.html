@@ -58,8 +58,9 @@
                 <input type="text" class="noIconinput" name="unit" placeholder="ישוב" id="city"><br>
 <!--Olga  Start 24/09/2015-->
 				<!--<input type="text" class="noIconinputMed" name="unit" placeholder="רחוב" id="street">  -->	
-				<select id="street" class="noIconinputMed" name="street" style="padding: 10px 3% 10px 4%;margin-top: 10px; width: 49%;">
-				</select>
+                <span id="streetWrapper" style="position: relative">
+                    <input id="street" type="text" style="padding: 10px 3% 10px 4%;margin-top: 10px; width: 49%;" />
+                </span>
 				<!--Olga  End 24/09/2015-->	
                 <input type="text" class="noIconinputSmall" name="unit" placeholder="מס' בית" id="houseNumber">
                 <!--shai 21-09-->
@@ -92,17 +93,8 @@
 							);}
 							
 	if(sessionStorage.errorstreetCode==1){var errMsg=sessionStorage.errorstreetMessage;	displayMessage(errMsg);}
-	if(sessionStorage.errorstreetCode==0) {
-	 var streets = sessionStorage.getItem("streets");
-	 streets=streets.split(",");
-		for(var i=0; i< streets.length; i++){
-			var	street=(streets);
-			$("[name='street']").append($('<option>', {
-			value: street[i],
-			text: street[i]
-		}));
-	}
-	}
+	if (sessionStorage.errorstreetCode == 0) { doarAutocomplete('#street', '#streetWrapper');}
+	
 	// Olga End 24/09/2015
   });
         $('#Approve').
