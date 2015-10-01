@@ -304,7 +304,7 @@ function getMaazan(username, heker, region, subRegion ) {
                                   returnObject.hodaa=$(data).find("hodaa").text();
                                   returnObject.huavarLashaliach=$(data).find("huavarLashaliach").text();
                                   returnObject.huchzeruLaMR=$(data).find("huchzeruLaMR").text();
-                                   returnObject.hutzuLachaluka=$(data).find("hutzuLachaluka").text();
+                                  returnObject.hutzuLachaluka=$(data).find("hutzuLachaluka").text();
                                   returnObject.lehachzaraLasholeach=$(data).find("lehachzaraLasholeach").text();
                                   returnObject.leloDivuach=$(data).find("leloDivuach").text();
                                   returnObject.merchazChaluka=$(data).find("merchazChaluka").text();
@@ -319,7 +319,9 @@ function getMaazan(username, heker, region, subRegion ) {
                      }).fail(function(jqXHR, textStatus, thrownError) {                                                                                                    
                            console.log('login failed: '+thrownError);
                            var returnObject={};
-                           returnObject.errorCode=2;                       
+                           returnObject.errorCode=2;   
+						   sessionStorage.setItem("Maazan", JSON.stringify(returnObject)); 
+						   return JSON.stringify(returnObject);						   
                      });
 
        
@@ -343,7 +345,6 @@ function createMaazanSoapMessage(username, heker, region, subRegion ) {
                      </soapenv:Envelope>';                
        return xml;          
 }
-
 //getStreets
 function getStreets(username, city ) {   
        var soapMessage=createStreetsSoapMessage(username, city );
@@ -504,6 +505,7 @@ var soapMessage;
                           //shai 24-09 end
                           returnObject.errorMessage = $(data).find("error").text();
                           sessionStorage.setItem("submit-delivery", "false");
+                          sessionStorage.setItem("errorMessage", $(data).find("faultstring").text() );
                           console.log("insertBarcode error");
 
                           //omer 27-09 for testing start
@@ -657,6 +659,7 @@ function loadMiyun(username, heker, region, subRegion ) {
                            url : serverUrl,
                            dataType : "xml",
                            type : "POST",
+						   async: false,
                            contentType : "text/xml;charset=utf-8",
                            headers: {
                              "SOAPAction": "http://tempuri.org/IService1/loadMiyun"
@@ -664,25 +667,35 @@ function loadMiyun(username, heker, region, subRegion ) {
                            crossDomain: true,
                            data : soapMessage,
                            timeout: 30000 //30 seconds timeout
-                     }).done(function(data) {                                                                              
-                           var returnObject={};
+                     }).done(function(data) {  					 
+                           var errorMiyunMessage="";
                            var returndata=$(data).find("success").text();                                                                                     
                            if (returndata != "true") {                     
-                                  returnObject.errorCode=1;                
-                                  returnObject.errorLoginMessage=$(data).find("error").text();                                                                                                                
+                                  errorCode=1;                
+                                  errorMiyunMessage=$(data).find("error").text();  
+								  
                            } else { //login successful                                                                            
-                                  returnObject.errorCode=0;
-                                  //returnObject.name=$(data).find("Name").text();
-                                  //returnObject.heker=$(data).find("heker").text();
-                                  //returnObject.notReported=$(data).find("notReported").text();
-                                  //returnObject.percentDay=$(data).find("PercentDay").text();
-                                  //returnObject.city=$(data).find("city").text();                                                                                                                     
+                                  errorCode=0;
+                                  Muynu=$(data).find("Muynu").text();
+                                  Shuycho=$(data).find("Shuycho").text();
+                                                                                                                                                      
                            }
-                           return returnObject;
+						   var returnObject = {
+									errorCode: errorCode,  
+									Muynu: Muynu,
+									Shuycho: Shuycho,
+									errorMiyunMessage: errorMiyunMessage
+								};
+							 sessionStorage.setItem("Miyun", JSON.stringify(returnObject));
+							//sessionStorage.setItem("Miyun", returnObject);
                      }).fail(function(jqXHR, textStatus, thrownError) {                                                                                                    
                            console.log('login failed: '+thrownError);
                            var returnObject={};
-                           returnObject.errorCode=2;                       
+                           errorCode=2;
+			         var returnObject = {
+									errorCode: errorCode
+								};
+                            sessionStorage.setItem("Miyun", JSON.stringify(returnObject));						   
                      });
 
        
@@ -706,7 +719,6 @@ function createMiyunSoapMessage(username, heker, region, subRegion ) {
                      </soapenv:Envelope>';                
        return xml;          
 }
-
 
 //updatePhone
 function updatePhone(username, phone ) { 
@@ -757,19 +769,3 @@ function createPhoneSoapMessage(username, phone ) {
                      </soapenv:Envelope>';                
        return xml;          
 }
-
-//Andrey 29.09.15 start
-$(document).ready(function () {
-    var streets = sessionStorage.getItem("streets");
-    streets = streets.split(",");
-
-    function doarAutocomplete(elem, elemWrapper) {
-        $(elem).autocomplete({
-            lookup: streets,
-            onSelect: function (suggestion) {
-            },
-            appendTo: $(elemWrapper)
-        });
-    }
-})
-//Andrey 29.09.15 end

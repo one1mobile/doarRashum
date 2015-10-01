@@ -102,7 +102,25 @@
 							);}
 							
 	if(sessionStorage.errorstreetCode==1){var errMsg=sessionStorage.errorstreetMessage;	displayMessage(errMsg);}
-	if (sessionStorage.errorstreetCode == 0) { doarAutocomplete('#street', '#streetWrapper'); }
+	if(sessionStorage.errorstreetCode==0) {
+	 var streets = sessionStorage.getItem("streets");     
+	 streets=streets.split(",");
+		/*for(var i=0; i< streets.length; i++){
+			var	street=(streets);
+			$("[name='street']").append($('<option>', {
+			value: street[i],
+			text: street[i]
+		}));
+	}*/
+       //Andrey 29.09.15 start		
+           $('#street').autocomplete({
+            lookup: streets,
+            onSelect: function (suggestion) {             
+            },
+            appendTo:$('#streetWrapper')
+        });
+       //Andrey 29.09.15 end	
+	}
 	// Olga End 24/09/2015
   });
 	
@@ -181,7 +199,7 @@ $('#sigPad').signaturePad({ drawOnly: true, lineWidth: '0', lineTop: 0 });
 		    })
                     //console.log("barcodes= " + barcodes);
                     var region = localStorage.getItem("Region");
-                    var subRegion = localStorage.getItem("subRegion"); if (!subRegion) {subRegion='';}
+                    var subRegion = localStorage.getItem("subRegions"); if (!subRegion) { subRegion = ''; }
                     var actionCode = '33';
                     var actionDetailedCode = localStorage.getItem("mesira");
                     var davarPhoneNo = "";
@@ -198,10 +216,12 @@ $('#sigPad').signaturePad({ drawOnly: true, lineWidth: '0', lineTop: 0 });
                         localStorage.removeItem("mesira");
                         localStorage.removeItem("Phone");
 		                localStorage.removeItem("barcodeCounter");
+                        localStorage.removeItem("submit-delivery");
+                        localStorage.removeItem("faultstring");
                         window.location = "lobby.html";
                         //shai 24-09 end
                     } else {
-                        displayErrorMessage("הדיווח לא נמסר-אירעה תקלה");
+                        displayErrorMessage("הדיווח לא נמסר-אירעה תקלה: "+localStorage.getItem("faultstring"));
                     }
 
                 }
