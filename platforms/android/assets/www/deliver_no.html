@@ -127,45 +127,43 @@ $(function(){
   
   $('#submit').
 			click(
-				function() {
-					var delivery_no_result=$('#packageNum').val();	
-         			if (delivery_no_result.length==13) {
-            			var withPhone = $('form input[type=radio]:checked').val();
-            			console.log('withPhone= '+withPhone);
-            			if (withPhone == "with phone") {
-            			    localStorage.setItem("noReportReason", $("#noReportReasonsList").val());
-            			    localStorage.setItem("delivery_no_result", delivery_no_result);
-						    window.location = 'not_deliver_details.html';
-            } else {
-                var lastName=""; var firstName=""; var phoneNumber=""; var city="0"; var street="0"; var houseNumber=""; var sigBase64=""; var streetText="";
-                var username=localStorage.getItem("username");
-                var heker=localStorage.getItem("heker");
-                var barcodes=delivery_no_result;
-                var region=localStorage.getItem("Region");
-                var subRegion=localStorage.getItem("subRegion");
-				if ( !subRegion ) 
-				{
-					subregion= "0";
-				}
-				
-                var actionCode='4';     
-                var actionDetailedCode = $("#noReportReasonsList").val();
-                var unit = $("#noReportReasonsList118").val();
-                var submit=new insertBarcode(username, heker, region, subRegion, actionCode, actionDetailedCode, barcodes, firstName, lastName, city, street, streetText, houseNumber, sigBase64, phoneNumber, 'false' , unit , "" );
-                if (sessionStorage.getItem("submit-delivery") == "true") {
-                //if (submit.success == true) {
-                    displayErrorMessage('הדיווח נשמר בהצלחה');
-                    localStorage.removeItem("delivery_no_result");
-                    window.location = "lobby.html";
-				} 
-else {
-         			    displayErrorMessage('ארעה תקלה בשמירת הדיווח');					
-					}				
-            }
-					} else
-         			{
-         			    displayErrorMessage('עליך לסרוק ברקוד או להקליד ידנית');					
-					}
+				function () {				    
+				    var withPhone = $('form input[type=radio]:checked').val();
+				    var actionDetailedCode = $("#noReportReasonsList").val();
+				    //shai 01/10 - cannot allow action code 118 and no phone
+				    if ((withPhone != "with phone") && (actionDetailedCode == 118)) {
+				        displayErrorMessage('לא ניתן לדווח תיאום מסירה ללא טלפון');
+				    } else {
+				        var delivery_no_result=$('#packageNum').val();	
+				        if (delivery_no_result.length == 13 && $('#reportReasonsList').val() !== 0) {
+				            console.log('withPhone= '+withPhone);
+				            if (withPhone == "with phone") {
+				                localStorage.setItem("noReportReason", $("#noReportReasonsList").val());
+				                localStorage.setItem("delivery_no_result", delivery_no_result);
+				                window.location = 'not_deliver_details.html';
+				            } else {
+				                var lastName=""; var firstName=""; var phoneNumber=""; var city="0"; var street="0"; var houseNumber=""; var sigBase64=""; var streetText="";
+				                var username=localStorage.getItem("username");
+				                var heker=localStorage.getItem("heker");
+				                var barcodes=delivery_no_result;
+				                var region=localStorage.getItem("Region");
+				                var subRegion=localStorage.getItem("subRegions"); if ( !subRegion ) {subregion= "0";}				
+				                var actionCode='4';     				                
+				                var unit = $("#noReportReasonsList118").val();
+				                var submit=new insertBarcode(username, heker, region, subRegion, actionCode, actionDetailedCode, barcodes, firstName, lastName, city, street, streetText, houseNumber, sigBase64, phoneNumber, 'false' , unit , "" );
+				                if (sessionStorage.getItem("submit-delivery") == "true") {                                
+				                    displayErrorMessage('הדיווח נשמר בהצלחה');
+				                    localStorage.removeItem("delivery_no_result");
+				                    window.location = "lobby.html";
+				                } else {
+				                    displayErrorMessage('ארעה תקלה בשמירת הדיווח');					
+				                }				
+				            }
+				        } else
+				        {
+				            displayErrorMessage('עליך לסרוק ברקוד או להקליד ידנית');					
+				        }
+				    }
 				}
 			) 
       

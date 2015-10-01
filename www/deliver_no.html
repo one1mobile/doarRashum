@@ -135,7 +135,7 @@ $(function(){
 				        displayErrorMessage('לא ניתן לדווח תיאום מסירה ללא טלפון');
 				    } else {
 				        var delivery_no_result=$('#packageNum').val();	
-				        if (delivery_no_result.length==13) {            			
+				        if (delivery_no_result.length == 13 && $('#reportReasonsList').val() !== 0) {
 				            console.log('withPhone= '+withPhone);
 				            if (withPhone == "with phone") {
 				                localStorage.setItem("noReportReason", $("#noReportReasonsList").val());

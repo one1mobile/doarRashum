@@ -24,22 +24,35 @@ document.addEventListener("deviceready", init, false);
 	//Maazan =  new Object();   
 	var Maazan=new getMaazan(username, heker, region, subRegion );
 	 Maazan= JSON.parse(sessionStorage.Maazan);
-	 $('#NimseruLachaluka').text (Maazan.NimseruLachaluka);
-	 $('#ddg').text (Maazan.ddg);
-	 $('#merchazChaluka').text (Maazan.merchazChaluka);
-	 $('#lehachzaraLasholeach').text (Maazan.lehachzaraLasholeach);
-	 $('#acher').text (Maazan.acher);
+	 var errorCode= Maazan.errorCode;
+	 if(errorCode=="0"){
+		$('#NimseruLachaluka').text (Maazan.NimseruLachaluka);
+		$('#ddg').text (Maazan.ddg);
+		$('#merchazChaluka').text (Maazan.merchazChaluka);
+		$('#lehachzaraLasholeach').text (Maazan.lehachzaraLasholeach);
+		$('#acher').text (Maazan.acher);
+		 
+		// $('#huchzeruLaMR').text (Maazan.huchzeruLaMR);
+		$('#hachzaraLasholeach').text (Maazan.hachzaraLasholeach);
+		$('#hutzuLachaluka').text (Maazan.hutzuLachaluka);
+		$('#nimseruLaniman').text (Maazan.nimseruLaniman);
+		$('#huavarLashaliach').text (Maazan.huavarLashaliach);
+		 
+		$('#hodaa').text (Maazan.hodaa);
+		$('#avud').text (Maazan.avud);
+		$('#leloDivuach').text (Maazan.leloDivuach);
+		spinner.stop();	
+	}
+	if(errorCode=="1"){
+		errorLoginMessage =Miyun.errorLoginMessage;
+			displayMessage(errorLoginMessage);
+	}
+	if(errorCode=="2"){
+			messageToDisplay= ('אירעה תקלה בהעברת הנתונים. \nנסה מאוחר יותר');
+			displayMessage(messageToDisplay);
+	}
+										
 	 
-	// $('#huchzeruLaMR').text (Maazan.huchzeruLaMR);
-	 $('#hachzaraLasholeach').text (Maazan.hachzaraLasholeach);
-	 $('#hutzuLachaluka').text (Maazan.hutzuLachaluka);
-	 $('#nimseruLaniman').text (Maazan.nimseruLaniman);
-	 $('#huavarLashaliach').text (Maazan.huavarLashaliach);
-	 
-	 $('#hodaa').text (Maazan.hodaa);
-	 $('#avud').text (Maazan.avud);
-	 $('#leloDivuach').text (Maazan.leloDivuach);
-	 spinner.stop();	
 });
 
 function init() {

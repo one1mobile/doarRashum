@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport"
-          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <title>דואר ישראל</title>
     <link href="css/boilerplate.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -19,44 +19,44 @@
     </script>
 </head>
 <body class="home">
-<div id="header"></div>
-<!--Content-->
-<script>
-    $(document).ready(function () {
-        $(".mainContent").css("height", window.innerHeight - ($("#header").innerHeight() + 160));
-    });
-</script>
-<div class="mainContent">
-    <div class="merukezetTitle">מסירה מרוכזת</div>
-    <div class="BarcodeFields">
-        <form id="no_deliver">
-            <select class="area" name="area" id="reportReasonsList"></select>
+    <div id="header"></div>
+    <!--Content-->
+    <script>
+        $(document).ready(function () {
+            $(".mainContent").css("height", window.innerHeight - ($("#header").innerHeight() + 160));
+        });
+    </script>
+    <div class="mainContent">
+        <div class="merukezetTitle">מסירה מרוכזת</div>
+        <div class="BarcodeFields">
+            <form id="no_deliver">
+                <select class="area" name="area" id="reportReasonsList"></select>
 
-            <div class="packageinputWrapper">
-                <span class="packageinputButton"></span>
-                <input type="text" class="packageinput" name="packageNum" maxlength="13" size="13"
-                       placeholder="הקלד מספר דבר דואר"><br>
-            </div>
+                <div class="packageinputWrapper">
+                    <span class="packageinputButton"></span>
+                    <input type="text" class="packageinput" name="packageNum" maxlength="13" size="13"
+                           placeholder="הקלד מספר דבר דואר"><br>
+                </div>
 
 
-            <div class="greyText">* במידה והברקוד אינו קריא ניתן להקליד מספר דבר הדואר</div>
-        </form>
-        <br>
+                <div class="greyText">* במידה והברקוד אינו קריא ניתן להקליד מספר דבר הדואר</div>
+            </form>
+            <br>
 
+        </div>
+        <a href="#">
+            <div class="BarcodeArea" id="deliver_startScan"></div>
+        </a><br>
+
+        <div class="totalScanItems">
+            <div class="totalScanItemsText">פריטים שנסרקו עד כה</div>
+            <div class="totalScanItemsIcon"><span id="counter">0</span></div>
+            <div class="totalScanItemsedit"><a href="#">ערוך</a></div>
+        </div>
+        <div class="loginBtn" id="submit"><a href="#">עדכן</a></div>
     </div>
-    <a href="#">
-        <div class="BarcodeArea" id="deliver_startScan"></div>
-    </a><br>
-
-    <div class="totalScanItems">
-        <div class="totalScanItemsText">פריטים שנסרקו עד כה</div>
-        <div class="totalScanItemsIcon"><span id="counter">0</span></div>
-        <div class="totalScanItemsedit"><a href="#">ערוך</a></div>
-    </div>
-    <div class="loginBtn" id="submit"><a href="#">עדכן</a></div>
-</div>
-<!--Footer-->
-<div id="footer"></div>
+    <!--Footer-->
+    <div id="footer"></div>
 </body>
 </html>
 
@@ -110,7 +110,7 @@
             barcodes.push($('.packageinput').val());
             counter += 1;
             $('#counter').text(counter);
-			$('.packageinput').val("");
+            $('.packageinput').val("");
             updateStorage();
             console.log(localStorage);
         }
@@ -118,24 +118,32 @@
 
     // function submit the barcods and link to details page
     $('#submit').click(function () {
-
-                localStorage.setItem("mesira", $("#reportReasonsList").val());
-
-                updateStorage();
-                window.location = 'deliver_details_merukezet.html';
-            }
-    )
+        if ($('#reportReasonsList').val() !== 0) {
+            localStorage.setItem("mesira", $("#reportReasonsList").val());
+            localStorage.removeItem('reportReasonsListVal');
+            updateStorage();
+            window.location = 'deliver_details_merukezet.html';
+        } else {
+            navigator.notification.alert(
+                'עליך לסרוק ברקוד או להקליד ידנית',    //message
+                null,									//callback
+                'דואר רשום',							//title
+                'אישור'									//button name
+            );
+        }
+    })
 
     // function for edit current barcods array
     $('.totalScanItemsedit').click(function () {
-                if (($('.packageinput').val() != '') && checkIfNotAvalable($('.packageinput').val())) {
-                    barcodes.push($('.packageinput').val());
-                    counter += 1;
-                }
-                $('.packageinput').text('');
-                updateStorage();
-                window.location = 'erase_item.html';
-            }
+        if (($('.packageinput').val() != '') && checkIfNotAvalable($('.packageinput').val())) {
+            barcodes.push($('.packageinput').val());
+            counter += 1;
+        }
+        $('.packageinput').text('');
+        localStorage.setItem('reportReasonsListVal', $('#reportReasonsList').val());       
+        updateStorage();
+        window.location = 'erase_item.html';
+    }
     )
 
     // function to update the local storage
@@ -147,7 +155,7 @@
     // check if the code in input is not included in barcodes array
     function checkIfNotAvalable(item) {
         var flag = true;
-        $(barcodes).each(function (index) {if (barcodes[index] == item) flag = false;})
+        $(barcodes).each(function (index) { if (barcodes[index] == item) flag = false; })
         return flag;
     }
 
@@ -169,7 +177,7 @@
             errorMessageToDisplay = errorManualCode1;
             validated = false;
         }
-        if (validated == true && ( /[^a-zA-Z0-9]/.test(manualcode.substring(0, 2)) )) {
+        if (validated == true && (/[^a-zA-Z0-9]/.test(manualcode.substring(0, 2)))) {
             errorMessageToDisplay = errorManualCode2;
             validated = false;
         }
@@ -216,10 +224,12 @@
                 listItems += "<option value='" + data[i].code + "'>" + data[i].description + "</option>";
             }
             $("#reportReasonsList").html(listItems);
+            $('#reportReasonsList').val(localStorage.getItem('reportReasonsListVal') || 0);
             console.log("Report Reasons List populated");
         }).fail(function (err) {
             console.log("Error JSON = " + JSON.parse(err));
         });
+
     });
 
 </script>
