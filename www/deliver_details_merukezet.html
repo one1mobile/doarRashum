@@ -116,6 +116,7 @@
 	 }
 
 	 if (sessionStorage.errorstreetCode == 0) { doarAutocomplete('#street', '#streetWrapper'); }
+
 	// Olga End 24/09/2015
   });
 	
@@ -194,7 +195,7 @@ $('#sigPad').signaturePad({ drawOnly: true, lineWidth: '0', lineTop: 0 });
 		    })
                     //console.log("barcodes= " + barcodes);
                     var region = localStorage.getItem("Region");
-                    var subRegion = localStorage.getItem("subRegion"); if (!subRegion) {subRegion='';}
+                    var subRegion = localStorage.getItem("subRegions"); if (!subRegion) { subRegion = ''; }
                     var actionCode = '33';
                     var actionDetailedCode = localStorage.getItem("mesira");
                     var davarPhoneNo = "";
@@ -211,10 +212,12 @@ $('#sigPad').signaturePad({ drawOnly: true, lineWidth: '0', lineTop: 0 });
                         localStorage.removeItem("mesira");
                         localStorage.removeItem("Phone");
 		                localStorage.removeItem("barcodeCounter");
+                        localStorage.removeItem("submit-delivery");
+                        localStorage.removeItem("faultstring");
                         window.location = "lobby.html";
                         //shai 24-09 end
                     } else {
-                        displayErrorMessage("הדיווח לא נמסר-אירעה תקלה");
+                        displayErrorMessage("הדיווח לא נמסר-אירעה תקלה: "+localStorage.getItem("faultstring"));
                     }
 
                 }

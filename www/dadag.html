@@ -84,6 +84,40 @@
 
 <script type="text/javascript">
     console.log('in dadag');
+    $('#deliver_startScan').
+			click(
+			  function(){
+			      //document.addEventListener("backbutton", onBackKeyDownOnScan, false);
+			      cordova.plugins.barcodeScanner.scan(
+                      function (result) {
+                          var s =
+                          "Result: " + result.text + ", " +
+                          "Format: " + result.format + ", " +
+                          "Cancelled: " + result.cancelled;
+                          console.log(s);
+                          if (!(result.cancelled)) {
+                              //var resultDiv=document.getElementById("packageNum");
+                              //resultDiv.innerHTML = result.text;
+                              // omer commented this out $('input.packageNum').val(result.text);
+                              $('#packageNum').attr('value', result.text);
+                              localStorage.setItem("delivery_result", result.text);
+                          } else {
+                              // user has cancelled the scan - nothing to do or display
+                          }
+                          //document.removeEventListener("backbutton", onBackKeyDownOnScan, false);
+                      },
+                      function(error) {
+                          //document.removeEventListener("backbutton", onBackKeyDownOnScan, false);
+                          console.log("Scanning failed: " + error);
+                          navigator.notification.alert(
+                              'סליחה, המצלמה נתקלה בבעיה. ייתכן שיהיה עליך להפעיל מחדש את המכשיר',				//message
+                              null,														//callback
+                              'דוורים',														//title
+                              'אישור'														//button name
+                          );
+                      }
+              )
+			  });
 
     /*
 * Fix for footer when the keyboard is displayed
@@ -112,8 +146,7 @@
         var desc = delivery_units.desc;
         $(code).each(function (index) {
             $('#unit').append("<option value='" + code[index] + "'>" + desc[index] + "</option>");
-        })
-
+        });
         //Andrey 29.09.15 end
 
         //Olga start 24/09/2015
@@ -128,6 +161,7 @@
         }
 
         if (sessionStorage.errorstreetCode == 1) { var errMsg = sessionStorage.errorstreetMessage; displayMessage(errMsg); }
+
         getStreets(localStorage.username, localStorage.city);
         var streets = sessionStorage.getItem("streets");
         streets = streets.split(",");
@@ -178,28 +212,28 @@
                });
 
 
+            //Andrey 29.09.15 end-->
+
+
+        // Olga End 24/09/2015
+
     $('#submit').click(function () {        
         event.stopPropagation(event);
         event.preventDefault(event);
         var delivery_result = localStorage.getItem("delivery_result");
 
-        var lastName = $("lastName").val();
-        var firstName = $("firstName").val();
-        var phoneNumber = $("phoneNumber").val();
-        //Andrey 30.09.15 start
-        $("#phoneNumber").val() == '' ? dadagSmsCounter += 1 : dadagMesronimCounter += 1;
-        $('.rightText span').text(dadagSmsCounter);
-        $('.leftText span').text(dadagMesronimCounter);
-        //Andrey 30.09.15 end
-        var city = $("city").val();
-        var street = $("street").val();
-        var houseNumber = $("houseNumber").val();
+        var lastName = $("#lastName").val();
+        var firstName = $("#firstName").val();
+        var phoneNumber = $("#phoneNumber").val();
+        var city=localStorage.getItem("city");
+        var streetText = $("#street").val();
+        var houseNumber = $("#houseNumber").val();
         var validated = true; var errorMessage;
         if (lastName == "") { validated = false; errorMessage = 'יש להזין שם משפחה'; }
         if (validated == true && firstName == "") { validated = false; errorMessage = 'יש להזין שם פרטי'; }
-        if (validated == true && phoneNumber == "") { validated = false; errorMessage = 'יש להזין מספר טלפון'; }
+        //if (validated == true && phoneNumber == "") { validated = false; errorMessage = 'יש להזין מספר טלפון'; }
         if (validated == true && city == "") { validated = false; errorMessage = 'יש להזין ישוב'; }
-        if (validated == true && street == "") { validated = false; errorMessage = 'יש להזין רחוב'; }
+        if (validated == true && streetText == "") { validated = false; errorMessage = 'יש להזין רחוב'; }
         if (validated == true && houseNumber == "") { validated = false; errorMessage = 'יש להזין מספר בית'; }
         if (validated == true && delivery_result.length != 13) { validated = false; errorMessage = 'עליך לסרוק ברקוד או להקליד ידנית'; }
 
@@ -210,9 +244,24 @@
             var heker = localStorage.getItem("heker");
             var barcodes = localStorage.getItem("delivery_result");
             var region = localStorage.getItem("Region");
-            var subRegion = localStorage.getItem("subRegion");
+            var subRegion = localStorage.getItem("subRegions");
             var actionCode = '24';
-            insertBarcode(username, heker, region, subRegion, actionCode, "0", barcodes, firstName, lastName, city, street, "", houseNumber, "", phoneNumber);
+            insertBarcode(username, heker, region, subRegion, actionCode, "0", barcodes, firstName, lastName, city, "0", streetText, houseNumber, "", phoneNumber, 'false', '0', '');            
+            if (sessionStorage.getItem("submit-delivery") == "true") {
+                displayErrorMessage("הדיווח נמסר בהצלחה");
+                $("#phoneNumber").val() == '' ? dadagSmsCounter += 1 : dadagMesronimCounter += 1;
+                $('.rightText span').text(dadagSmsCounter);
+                $('.leftText span').text(dadagMesronimCounter);
+                localStorage.removeItem("submit-delivery");
+                localStorage.removeItem("barcodes");
+                localStorage.removeItem("mesira");
+                localStorage.removeItem("Phone");
+                localStorage.removeItem("barcodeCounter");
+                localStorage.removeItem("submit-delivery");
+                localStorage.removeItem("errorMessage");
+            } else {
+                displayErrorMessage("הדיווח לא נמסר-אירעה תקלה: " + localStorage.getItem("errorMessage"));
+            }
 
         }
         
@@ -220,6 +269,7 @@
         $(inputs).each(function (index) { $(inputs[index]).val(''); })
     }
 );
+
 
     $('.redbutton2').click(function () {
         localStorage.setItem('dadagCounter', dadagSmsCounter);

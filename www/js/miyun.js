@@ -4,7 +4,7 @@ var username = localStorage.getItem("username");
 var heker = localStorage.getItem("heker");
 var  Region = localStorage.getItem("Region");
 var subRegions = localStorage.getItem("subRegions");
-
+if(typeof subRegions == "undefined" ) {subRegions="";}
 document.addEventListener("deviceready", init, false);
 
 function init() {
@@ -20,10 +20,23 @@ function init() {
 
 $(document).ready(function(){
 	loadMiyun(username, heker, Region, subRegions );	
+	
 	Miyun = sessionStorage.Miyun;
 	Miyun=$.parseJSON(Miyun);
-	$("#Shuycho").text(Miyun.Shuycho);
-	$("#Muynu").text(Miyun.Muynu);
+	var errorCode= Miyun.errorCode
+
+	if(errorCode=="0"){
+		$("#Shuycho").text(Miyun.Shuycho);
+		$("#Muynu").text(Miyun.Muynu);
+	}
+	if(errorCode=="1"){
+		errorMiyunMessage =Miyun.errorMiyunMessage;
+		displayMessage(errorMiyunMessage);
+	}
+	if(errorCode=="2"){
+		messageToDisplay= ('אירעה תקלה בהעברת הנתונים. \nנסה מאוחר יותר');
+		displayMessage(messageToDisplay);
+	}
 	
 	$('#startScan').
 			click(
@@ -48,13 +61,23 @@ $(document).ready(function(){
 								if (sessionStorage.getItem("submit-delivery") == "true") {								
 										localStorage.removeItem("delivery_result");
 										localStorage.removeItem("submit-delivery");	
-loadMiyun(username, heker, Region, subRegions );	
-	Miyun = sessionStorage.Miyun;
-	Miyun=$.parseJSON(Miyun);
-	$("#Shuycho").text(Miyun.Shuycho);
-	$("#Muynu").text(Miyun.Muynu);
-//$("#Shuycho").text("4");
-//	$("#Muynu").text("3");	
+										loadMiyun(username, heker, Region, subRegions );	
+										Miyun = sessionStorage.Miyun;
+										Miyun=$.parseJSON(Miyun);
+										if(errorCode=="0"){
+											$("#Shuycho").text(Miyun.Shuycho);
+											$("#Muynu").text(Miyun.Muynu);
+										}
+										if(errorCode=="1"){
+											errorMiyunMessage =Miyun.errorMiyunMessage;
+											displayMessage(errorMiyunMessage);
+										}
+										if(errorCode=="2"){
+											messageToDisplay= ('אירעה תקלה בהעברת הנתונים. \nנסה מאוחר יותר');
+											displayMessage(messageToDisplay);
+										}
+										
+	
 									  }  else {									  
 										messageToDisplay= ('אירעה תקלה בהעברת הנתונים. \nנסה מאוחר יותר');
 										displayMessage(messageToDisplay);
