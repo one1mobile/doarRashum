@@ -191,6 +191,7 @@ D:\one\doarRashum\platforms\android\assets\www\js\json2.min.js \
 D:\one\doarRashum\platforms\android\assets\www\js\lobby.js \
 D:\one\doarRashum\platforms\android\assets\www\js\miyun.js \
 D:\one\doarRashum\platforms\android\assets\www\js\respond.min.js \
+D:\one\doarRashum\platforms\android\assets\www\js\script.js \
 D:\one\doarRashum\platforms\android\assets\www\js\sidr-package-1.2.1 \
 D:\one\doarRashum\platforms\android\assets\www\js\spin.js \
 D:\one\doarRashum\platforms\android\assets\www\js\css\jquery.sidr.dark.css \
