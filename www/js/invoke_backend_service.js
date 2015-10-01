@@ -34,6 +34,11 @@ function authenticate(username, password) {
                          } else { //login successful   
 
                              returnObject.errorCode = 0;
+                             //shai test
+                             var jsonObj = xmlToJson(data);
+                             console.log(jsonObj);
+                             //alert(jsonObj["s:Envelope"]["s:Body"].authenticateResponse.authenticateResult["a:authenticate"]["a:Name"]);                             
+                             //shai end test
                              localStorage.setItem("errorCode", returnObject.errorCode);
                              /*
                                   returnObject.name=$(data).find("Name").text();
@@ -114,6 +119,12 @@ function getDataForMenu(username, heker, region, subRegion) {
                            } else { //login successful                                                                            
                                   returnObject.errorCode=0;
                                   localStorage.setItem("PercentDay", $(data).find("PercentDay").text());
+                                  var percentDayV = localStorage.getItem("PercentDay");
+                                  if (percentDayV != "") {
+                                      document.getElementById("PercentDayD").innerHTML = document.getElementById("PercentDayD").innerHTML + percentDayV;                                   
+                                  } else {
+                                      document.getElementById("PercentDayD").innerHTML = document.getElementById("PercentDayD").innerHTML + "0%";
+                                  }
                                   //returnObject.name=$(data).find("Name").text();
                                   //returnObject.heker=$(data).find("heker").text();
                                   //returnObject.notReported=$(data).find("notReported").text();
@@ -134,7 +145,7 @@ function createDataForMenuSoapMessage(username, heker, region, subRegion ) {
        var xml='<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/"> \
                  <soapenv:Header/> \
                            <soapenv:Body> \
-                            <tem:createDataForMenuSoapMessage> \
+                            <tem:getDataForMenu> \
                                   <!--Optional:--> \
                                   <tem:userName>'+username+'</tem:userName> \
                                   <!--Optional:--> \
@@ -143,7 +154,7 @@ function createDataForMenuSoapMessage(username, heker, region, subRegion ) {
                                   <tem:region>'+region+'</tem:region> \
                                          <!--Optional:--> \
                                   <tem:subRegion>'+subRegion+'</tem:subRegion> \
-                            </tem:createDataForMenuSoapMessage> \
+                            </tem:getDataForMenu> \
                            </soapenv:Body> \
                      </soapenv:Envelope>';                
        return xml;          
@@ -308,7 +319,8 @@ function getMaazan(username, heker, region, subRegion ) {
                                   returnObject.lehachzaraLasholeach=$(data).find("lehachzaraLasholeach").text();
                                   returnObject.leloDivuach=$(data).find("leloDivuach").text();
                                   returnObject.merchazChaluka=$(data).find("merchazChaluka").text();
-                                  returnObject.nimseruLaniman=$(data).find("nimseruLaniman").text();                                                                           
+                                  returnObject.nimseruLaniman = $(data).find("nimseruLaniman").text();
+                                  returnObject.teumMesira = $(data).find("teumMesira").text();
                            }
                            
                            console.log(returnObject);
@@ -769,3 +781,43 @@ function createPhoneSoapMessage(username, phone) {
                      </soapenv:Envelope>';
     return xml;
 }
+
+
+// Changes XML to JSON
+function xmlToJson(xml) {
+
+    // Create the return object
+    var obj = {};
+
+    if (xml.nodeType == 1) { // element
+        // do attributes
+        if (xml.attributes.length > 0) {
+            obj["@attributes"] = {};
+            for (var j = 0; j < xml.attributes.length; j++) {
+                var attribute = xml.attributes.item(j);
+                obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+            }
+        }
+    } else if (xml.nodeType == 3) { // text
+        obj = xml.nodeValue;
+    }
+
+    // do children
+    if (xml.hasChildNodes()) {
+        for (var i = 0; i < xml.childNodes.length; i++) {
+            var item = xml.childNodes.item(i);
+            var nodeName = item.nodeName;
+            if (typeof (obj[nodeName]) == "undefined") {
+                obj[nodeName] = xmlToJson(item);
+            } else {
+                if (typeof (obj[nodeName].push) == "undefined") {
+                    var old = obj[nodeName];
+                    obj[nodeName] = [];
+                    obj[nodeName].push(old);
+                }
+                obj[nodeName].push(xmlToJson(item));
+            }
+        }
+    }
+    return obj;
+};

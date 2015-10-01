@@ -36,11 +36,12 @@ document.addEventListener("deviceready", init, false);
 		$('#hachzaraLasholeach').text (Maazan.hachzaraLasholeach);
 		$('#hutzuLachaluka').text (Maazan.hutzuLachaluka);
 		$('#nimseruLaniman').text (Maazan.nimseruLaniman);
-		$('#huavarLashaliach').text (Maazan.huavarLashaliach);
+		$('#huavarLashaliach').text(Maazan.huavarLashaliach);		
 		 
 		$('#hodaa').text (Maazan.hodaa);
 		$('#avud').text (Maazan.avud);
-		$('#leloDivuach').text (Maazan.leloDivuach);
+		$('#leloDivuach').text(Maazan.leloDivuach);
+		$('#teumMesira').text(Maazan.teumMesira);
 		spinner.stop();	
 	}
 	if(errorCode=="1"){

@@ -162,13 +162,16 @@
                           $('#davarPhoneNo').removeClass('hidden');
                       }
                       else{
-                          displayErrorMessage('הדיווח לא נשמר- ארעה תקלה');
+                          displayErrorMessage("הדיווח לא נמסר-אירעה תקלה: " + localStorage.getItem("errorMessage"));
                       }
                      }
 
                       else {
 
                           displayErrorMessage('הדיווח נשמר בהצלחה');
+                          if (actionDetailedCode == 118) {
+                              displayErrorMessage('SMS נשלח ללקוח לתיאום מסירה');
+                          }
                           localStorage.removeItem("delivery_no_result");
                           window.location = "lobby.html";
                       }

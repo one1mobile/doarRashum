@@ -27,6 +27,17 @@ $(function(){
 		$(document).ready(function(){
 			$(".mainContent").css("height", window.innerHeight-($("#header").innerHeight()+160));
 		});
+
+		/*
+     * Fix for footer when the keyboard is displayed
+     */
+		$(document).on('focus', 'input, textarea', function () {
+		    $(".footer").hide();
+		});
+
+		$(document).on('blur', 'input, textarea', function () {
+		    $(".footer").attr("display", "block!important"); $(".footer").show();
+		});
 		</script>
 <div class="mainContent">
 <div class="miyunTitle">מיון לפי סדר הליכה</div>
@@ -35,12 +46,20 @@ $(function(){
 
 <div class="miyunTop">כמות הפריטים שמוינו</div>
 <div class="miyunTopNum" id="Muynu"></div>
+ <!--shai 01/10 start-->
+    <!--add an option to manually type a barcode-->
+    <form>
+        <input type="text" class="packageinput" name="packageNum" id="packageNum" maxlength="13" size="13" placeholder="הקלד מספר דבר דואר"><br>
+        <div class="greyText">* במידה והברקוד אינו קריא ניתן להקליד מספר דבר הדואר</div>
+    </form>
+    <div class="loginBtn" id="typeBarcode"><a href="#">עדכן</a></div><br /><br /><br />
+    <!--shai 01/10 end-->
 <a href="#"><div class="BarcodeArea" id="startScan"></div></a><br>
-<br>
 <br>
 <div class="doneScan" id="doneScan"><a href="#">סיימתי לסרוק</a></div>
 </div>
 <!--Footer-->
 <div id="footer"></div>
 <script src="js/miyun.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
  
